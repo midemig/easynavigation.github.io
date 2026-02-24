@@ -44,11 +44,10 @@ clean:
 # along with a README
 
 publish:
-	git clone --reference . https://github.com/EasyNavigation/EasyNavigation.github.io.git $(PUBLISHDIR)
+	rm -rf $(PUBLISHDIR)
+	git clone --reference . git@github.com:EasyNavigation/EasyNavigation.github.io.git $(PUBLISHDIR)
 	cd $(PUBLISHDIR) && \
 	git checkout gh-pages && \
-	git config user.email "fmrico@gmail.com" && \
-	git config user.name "fmrico"
 	rm -fr $(PUBLISHDIR)/*
 	cp -r $(BUILDDIR)/html/* $(PUBLISHDIR)
 	cp scripts/.nojekyll $(PUBLISHDIR)/.nojekyll
@@ -57,6 +56,7 @@ publish:
 	git add -A && \
 	git diff-index --quiet HEAD || \
 	(git commit -s -m "[skip ci] publish $(RELEASE)" && git push origin)
+	rm -rf $(PUBLISHDIR)
 
 
 # Catch-all target: route all unknown targets to Sphinx using the new
